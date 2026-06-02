@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>ArcGIS Map</title>
+    <link rel="stylesheet" href="https://js.arcgis.com/4.4/esri/css/main.css">
+    <script src="https://js.arcgis.com/4.4/"></script>
+    <style>
+    html,
+    body,
+    #mapview {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+    }
+    </style>
+</head>
+
+<body>
+    <button id='satellite'>Satellite Map</button>
+    <button id='topomap'>Topo Map</button>
+    <button id='streetmap'>Streetmap</button>
+    <div id='mapview' style='width:800px;height:500px'>map goes here</div>
+    <script>
+    let satellite;
+    let topomap;
+    let streetmap;
+
+    let sceneview;
+    let lastcenter;
+    require([
+        "esri/Map",
+        "esri/views/MapView",
+        "esri/views/SceneView"
+    ], function(Map, MapView, SceneView) {
+
+        topomap = new Map({
+            basemap: "topo"
+        });
+
+        satellite = new Map({
+            basemap: "satellite"
+        })
+        streetmap = new Map({
+            basemap: "streets"
+        })
+
+        let viewoptions = {
+            container: "mapview",
+            map: topomap,
+            center: [85.3240, 27.7172],
+            zoom: 1
+        }
+
+        // mapview = new MapView({
+        //     container: "mapview",
+        //     map: map1,
+        //     center: [85.3240, 27.7172],
+        //     zoom: 10
+        // });
+        sceneview = new SceneView(viewoptions);
+    });
+    document.getElementById("satellite").addEventListener("click",
+        function() {
+            sceneview.map = satellite;
+
+    });
+    document.getElementById("topomap").addEventListener("click", function() {
+        sceneview.map = topomap;
+    })
+    document.getElementById("streetmap").addEventListener("click", function() {
+        sceneview.map = streetmap;
+    })
+    </script>
+</body>
+
+</html>
